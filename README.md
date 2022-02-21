@@ -35,3 +35,9 @@ We will select two models by 2/17 and 2/28. For both models, Alistair will work 
 [4] Amidon A. (2020, July 16). How to Apply K-means Clustering to Time Series Data. Towards Data Science, Medium. [https://towardsdatascience.com/how-to-apply-k-means-clustering-to-time-series-data-28d04a8f7da3](https://towardsdatascience.com/how-to-apply-k-means-clustering-to-time-series-data-28d04a8f7da3)
 
 [5] GeeksforGeeks. (2021, December 22). Stock Buy Sell to Maximize Profit. [https://www.geeksforgeeks.org/stock-buy-sell/](https://www.geeksforgeeks.org/stock-buy-sell/)
+
+<style>
+  .footer {
+    display: none;
+  }
+</style>
