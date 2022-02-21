@@ -1,5 +1,7 @@
 ## Predicting Stock Prices With Technical Analysis
 
+https://user-images.githubusercontent.com/50810904/155036324-39cf45cf-6e4d-47f0-ab16-b10ad9d3f17e.mp4
+
 ## Introduction
 
 Technical analysis is a common method used to predict stock prices that has been studied since the late 1800s. Most of the recent work has focused on testing different machine learning techniques using common technical indicators [1] and using the technical indicators of correlated stocks with a hybrid Genetic Algorithm and Support Vector Machine approach [2]. This project focuses on the stocks in the S&P 500 and will use daily time-frame data from Yahoo Finance from which the technical indicators can be calculated.
