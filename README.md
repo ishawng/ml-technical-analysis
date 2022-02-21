@@ -1,4 +1,4 @@
-# Predicting Stock Prices With Technical Analysis
+## Predicting Stock Prices With Technical Analysis
 
 ## Introduction
 
