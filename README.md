@@ -1,3 +1,5 @@
+## Predicting Stock Prices With Technical Analysis - Project Proposal
+
 ## Introduction
 
 Technical analysis is a common method used to predict stock prices that has been studied since the late 1800s. Most of the recent work has focused on testing different machine learning techniques using common technical indicators [1] and using the technical indicators of correlated stocks with a hybrid Genetic Algorithm and Support Vector Machine approach [2]. This project focuses on the stocks in the S&P 500 and will use daily time-frame data from Yahoo Finance from which the technical indicators can be calculated.
@@ -22,12 +24,12 @@ We will select two models by 2/17 and 2/28. For both models, Alistair will work 
 
 ## References:
 
-[1] Dash, R., Dash, P. K. (2016). A hybrid stock trading framework integrating technical analysis with machine learning techniques. Journal of Finance and Data Science, 2(1), 42-57. https://www.sciencedirect.com/science/article/pii/S2405918815300179.
+[1] Dash, R., Dash, P. K. (2016). A hybrid stock trading framework integrating technical analysis with machine learning techniques. Journal of Finance and Data Science, 2(1), 42-57. [https://www.sciencedirect.com/science/article/pii/S2405918815300179](https://www.sciencedirect.com/science/article/pii/S2405918815300179)
 
-[2] Choudhry, R., Garg, K. (2008). A hybrid machine learning system for stock market forecasting. World Academy of Science, Engineering and Technology. https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.307.6153&rep=rep1&type=pdf. 
+[2] Choudhry, R., Garg, K. (2008). A hybrid machine learning system for stock market forecasting. World Academy of Science, Engineering and Technology. [https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.307.6153&rep=rep1&type=pdf](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.307.6153&rep=rep1&type=pdf)
 
-[3] Sreekumar A., Kalkur P., Moiz M. (2019). Practical Market Indicators for Algorithmic Stock Market Trading: Machine Learning Techniques and Grid Strategy. In: Shetty N., Patnaik L., Nagaraj H., Hamsavath P., Nalini N. (eds) Emerging Research in Computing, Information, Communication and Applications. Advances in Intelligent Systems and Computing, vol 906. Springer, Singapore. https://doi.org/10.1007/978-981-13-6001-5_10
+[3] Sreekumar A., Kalkur P., Moiz M. (2019). Practical Market Indicators for Algorithmic Stock Market Trading: Machine Learning Techniques and Grid Strategy. In: Shetty N., Patnaik L., Nagaraj H., Hamsavath P., Nalini N. (eds) Emerging Research in Computing, Information, Communication and Applications. Advances in Intelligent Systems and Computing, vol 906. Springer, Singapore. [https://doi.org/10.1007/978-981-13-6001-5_10](https://doi.org/10.1007/978-981-13-6001-5_10)
 
-[4] Amidon A. (2020, July 16). How to Apply K-means Clustering to Time Series Data. Towards Data Science, Medium. https://towardsdatascience.com/how-to-apply-k-means-clustering-to-time-series-data-28d04a8f7da3
+[4] Amidon A. (2020, July 16). How to Apply K-means Clustering to Time Series Data. Towards Data Science, Medium. [https://towardsdatascience.com/how-to-apply-k-means-clustering-to-time-series-data-28d04a8f7da3](https://towardsdatascience.com/how-to-apply-k-means-clustering-to-time-series-data-28d04a8f7da3)
 
-[5] GeeksforGeeks. (2021, December 22). Stock Buy Sell to Maximize Profit. https://www.geeksforgeeks.org/stock-buy-sell/
+[5] GeeksforGeeks. (2021, December 22). Stock Buy Sell to Maximize Profit. [https://www.geeksforgeeks.org/stock-buy-sell/](https://www.geeksforgeeks.org/stock-buy-sell/)
