@@ -23,7 +23,9 @@ We will select two models by 2/17 and 2/28. For both models, Alistair will work 
 ## References:
 
 [1] Dash, R., Dash, P. K. (2016). A hybrid stock trading framework integrating technical analysis with machine learning techniques. Journal of Finance and Data Science, 2(1), 42-57. https://www.sciencedirect.com/science/article/pii/S2405918815300179.
+
 [2] Choudhry, R., Garg, K. (2008). A hybrid machine learning system for stock market forecasting. World Academy of Science, Engineering and Technology. https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.307.6153&rep=rep1&type=pdf. 
+
 [3] Sreekumar A., Kalkur P., Moiz M. (2019). Practical Market Indicators for Algorithmic Stock Market Trading: Machine Learning Techniques and Grid Strategy. In: Shetty N., Patnaik L., Nagaraj H., Hamsavath P., Nalini N. (eds) Emerging Research in Computing, Information, Communication and Applications. Advances in Intelligent Systems and Computing, vol 906. Springer, Singapore. https://doi.org/10.1007/978-981-13-6001-5_10
 
 [4] Amidon A. (2020, July 16). How to Apply K-means Clustering to Time Series Data. Towards Data Science, Medium. https://towardsdatascience.com/how-to-apply-k-means-clustering-to-time-series-data-28d04a8f7da3
