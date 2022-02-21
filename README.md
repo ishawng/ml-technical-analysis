@@ -1,4 +1,4 @@
-## Predicting Stock Prices With Technical Analysis - Project Proposal
+# Predicting Stock Prices With Technical Analysis
 
 ## Introduction
 
