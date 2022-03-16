@@ -78,6 +78,7 @@ def pull_data_from_csv(symb, folder):
     # print(f"close_vals.shape = {close_vals.shape}")
     # print(f"dates.shape = {dates.shape}")
     # print(f"symb_data = {symb_data}")
+    os.chdir("../..")
     return dates, symb_data
     
     

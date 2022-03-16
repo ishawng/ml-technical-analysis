@@ -169,4 +169,6 @@ if __name__ == "__main__":
     # testing with AAPL data
     dates, symb_data = pull_data_from_csv("AAPL", "training_data")
     get_features_data(symb_data)
+    # dates, symb_data = pull_data_from_csv("FB", "training_data")
+    # get_features_data(symb_data)
     
