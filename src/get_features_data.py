@@ -14,10 +14,10 @@ import matplotlib.pyplot as plt
 from Constants import CLOSE_IND, HIGH_IND, LOW_IND, VOL_IND
 
 def get_features_data(symb_data : np.array):
-    close_vals = symb_data[:,CLOSE_IND]
-    high_vals = symb_data[:,HIGH_IND]
-    low_vals = symb_data[:,LOW_IND]
-    vol_vals = symb_data[:,VOL_IND]
+    close_vals = symb_data[:-1,CLOSE_IND]
+    high_vals = symb_data[:-1,HIGH_IND]
+    low_vals = symb_data[:-1,LOW_IND]
+    vol_vals = symb_data[:-1,VOL_IND]
     D = 40
     N = close_vals.shape[0]
     feat = np.zeros((N, D))
