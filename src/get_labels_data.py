@@ -54,7 +54,9 @@ if __name__ == "__main__":
     # plt.plot(dates, symb_data[:,CLOSE_IND] / symb_data[0,CLOSE_IND])
     # plt.show()
     decisions1, _ = daily_peak_valley_labels(symb_data)
+    print(f"labels1_shape = {decisions1.shape}")
     decisions2, _ = MA15_trend_analysis_labels(symb_data)
+    print(f"labels2_shape = {decisions2.shape}")
     decisions0 = np.ones((len(decisions1),)) # buy-hold
     plot_account(dates, simulate(symb_data, decisions0), "buy-hold")
     plot_account(dates, simulate(symb_data, decisions1), "our-novel-label")

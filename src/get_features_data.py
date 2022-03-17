@@ -130,9 +130,8 @@ def get_features_data(symb_data : np.array):
     feat[:,38] = (vwap14-ema144) / std_ema
     # feature40: vwap5-vwap14 ratio
     feat[:,39] = (vwap5-vwap14) / std_ema
-    
-    
     # plot_feature(feat[:,0], "ema")
+    return feat
 
 def get_sma(close_vals : np.array, window : int):
     return (trend.sma_indicator(pd.Series(close_vals), window=window)).to_numpy()
@@ -168,7 +167,8 @@ def plot_feature(feat_col, label):
 if __name__ == "__main__": 
     # testing with AAPL data
     dates, symb_data = pull_data_from_csv("AAPL", "training_data")
-    get_features_data(symb_data)
+    feat = get_features_data(symb_data)
+    print(f"features shape = {feat.shape}")
     # dates, symb_data = pull_data_from_csv("FB", "training_data")
     # get_features_data(symb_data)
     
