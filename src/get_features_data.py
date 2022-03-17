@@ -132,7 +132,7 @@ def get_features_data(symb_data : np.array):
     feat[:,39] = (vwap5-vwap14) / std_ema
     
     
-    # plot_feature(feat[:,33], "vwap5-vwap14")
+    # plot_feature(feat[:,0], "ema")
 
 def get_sma(close_vals : np.array, window : int):
     return (trend.sma_indicator(pd.Series(close_vals), window=window)).to_numpy()

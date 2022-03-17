@@ -55,7 +55,7 @@ def get_top_n_stocks(n):
 # symb : symbol of stock in capital letters
 # folder : either "training_data" or "test_data"
 # returns numpy arrays for dates and combined symb_array of format [open, high, low, close, vol]
-def pull_data_from_csv(symb, folder):
+def pull_data_from_csv(symb : str, folder):
     output_dir = "stock_data/" + folder
     if not os.path.isdir(output_dir):
         raise FileNotFoundError(f"folder = '{folder}' Does not exist")

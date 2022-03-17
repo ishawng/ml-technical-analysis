@@ -51,13 +51,13 @@ def MA15_trend_analysis_labels(symb_data : np.array):
 if __name__ == "__main__": 
     # testing with AAPL data
     dates, symb_data = pull_data_from_csv("AAPL", "training_data")
-    plt.plot(dates, symb_data[:,CLOSE_IND] / symb_data[0,CLOSE_IND])
-    plt.show()
+    # plt.plot(dates, symb_data[:,CLOSE_IND] / symb_data[0,CLOSE_IND])
+    # plt.show()
     decisions1, _ = daily_peak_valley_labels(symb_data)
     decisions2, _ = MA15_trend_analysis_labels(symb_data)
     decisions0 = np.ones((len(decisions1),)) # buy-hold
     plot_account(dates, simulate(symb_data, decisions0), "buy-hold")
-    plot_account(dates, simulate(symb_data, decisions1), "our-label")
+    plot_account(dates, simulate(symb_data, decisions1), "our-novel-label")
     plot_account(dates, simulate(symb_data, decisions2), "MA15-label")
     
     

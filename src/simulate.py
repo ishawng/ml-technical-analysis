@@ -22,6 +22,6 @@ def plot_account(dates : np.array, acc : np.array, title : str):
     plt.plot(dates, acc)
     plt.xlabel("Time")
     plt.ylabel("Unit Account")
-    plt.title = title
+    plt.title (title)
     plt.show()
     
