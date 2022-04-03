@@ -1,0 +1,10 @@
+Based on avg final balance of all 50 stocks, 7 components maximizes the avg final balance.
+The features that contribute most to each component were determined with a threshold of 0.1. 
+Interesting observations:
+- Component 6 relied mostly on feature 32 (vol-vol30 ratio) for all stocks
+- Components 1-5 relied mostly on features 22-26 (RSI features) with some variations
+- Component 7 has contributions from a wide range of features. 
+  The following features are common for all stocks: 3,  4,  7,  9, 10, 11, 12, 13, 15, 16, 17, 37, 38
+  Second most common features: 6, 21
+  Feature 2 also appers
+  This corresponds to Moving average features (2-17), MACD (21), VWAP features (37-38).
