@@ -83,7 +83,7 @@ This concludes all the data collection and processing that was done to acquire t
 
 We conduct unsupervised learning on a number of stocks from the S&P 500 to separate them into clusters based on their price data over a number of years (2010-2020). More specifically, we use normalized closing prices as our features. The normalization is done by dividing each closing price by the max closing price the stock has ever attained, which will create features whose values fall in the range [0, 1]. This is a necessary step because we want to cluster stocks that follow similar trends, not necessarily stocks that have similar prices. For example, if stock A follows the same trend of highs and lows as stock B, we want them to be in the same cluster even if stock A’s share price is consistently $100 greater than stock B’s (vertical shifts in trends should not affect clustering results).
 
-To cluster based on similarity of sequences of data points, K-Means will be applied with Dynamic Time Warping (DTW) metric [4]. To evaluate its effectiveness, we will compare it with K-Means with Euclidean distance metric and a Gaussian Mixture Model.
+To cluster based on similarity of sequences of data points, K-Means will be applied with Dynamic Time Warping (DTW) metric [4]. To evaluate its effectiveness, we will compare it with K-Means with Euclidean distance metric and a Gaussian Mixture Model. We use K-Means with DTW instead of Euclidean distance because Euclidean distance is not a very good metric when dealing with time-series data, as it is invariant to time shifts. That is, if two time series are similar, but shifted by some number of time steps, Euclidean distance fails during clustering. As motivated by [4], DTW is a better metric to use when clustering time series because it can measure the similarity in trend between two time series even if the similarity does not begin at the same time.
 
 Supervised learning was conducted on the top 50 stocks to make purchase decisions using the most common technical indicators as features. The first supervised learning method that was used was Gaussian Naive Bayes (GNB). Before GNB could be used on the data, the data was cleaned up. Many of the features are calculated based on a range of data, so the values for those features were NaN if enough data was not available. To illustrate this, consider the SMA34 feature. The SMA34 feature is the average of the closing price of the past 34 days. For the first 33 days considered in the training set, the SMA34 can not be calculated, so its value is NaN. GNB does not work with NaN values for features, so all NaN values in the training and testing features were replaced with zero before using with GNB. 
 
@@ -101,9 +101,9 @@ The first clustering method we used was K-Means with Euclidean distance. Running
 
 ![Alt text](images/knn.PNG?raw=true "Figure 5")
 
-Most of the clusters ended up being fairly mixed, with one cluster of outliers. This is likely because Euclidean distance isn’t a very good metric when dealing with time-based data, as it is invariant to time shifts. That is, if two time series are similar, but shifted by some number of time steps, Euclidean distance fails during clustering.
+Most of the clusters ended up being fairly mixed, with one cluster of outliers. Again, this is likely because Euclidean distance isn’t a very good metric when dealing with time-series data.
 
-To solve this problem, we next used K-Means with Dynamic Time Warping (DTW). As motivated by [4], DTW is a better metric to use when clustering time series because it can measure the similarity in trend between two time series even if the similarity does not begin at the same time. The resulting elbow method plot for this strategy revealed 6 clusters as being a good choice for the dataset:
+To solve this problem, we next used K-Means with Dynamic Time Warping (DTW). The resulting elbow method plot for this strategy revealed 6 clusters as being a good choice for the dataset:
 
 ![Alt text](images/dtw_elbow.PNG?raw=true "Figure 6")
 
@@ -130,7 +130,6 @@ From the above figures it can be seen, in general, buy-hold seems to be the most
 ![Alt text](images/GNB_2.PNG?raw=true "Figure 10")
 
 Avg Accuracy: [Peak, MA15] =  [0.5002069,  0.70351724]
-
 Avg Final Balance: [Buy-hold, Peak, MA15] =  [1.19225756, 1.10091563, 1.08027871]
 
 As can be observed from the above figures for accuracy and final balance, the MA15 has significantly higher accuracy than peak-valley, but it still yields less profit in general for the majority of stocks. This is because the peak-valley labelling method is much more aggressive than the MA15. With peak-valley, if one were to get 100% accuracy, it would imply the algorithm got the correct prediction for every single day. However, with MA15, it needs to be correct roughly every 15 days (as per the MA15), and thus accuracy tends to be higher with MA15. However, the drawback with MA15 is that even with 100% accuracy its potential profit is still minor compared to peak-valley. Thus 50% accuracy with peak-valley results in more profit than 75% accuracy with MA15. Thus, labelling plays a critical role in the performance for stock trading machine learning. Then, it can also be seen that although buy-hold beats both algorithms, there are some stocks for which peak-valley and MA15 beat the buy-hold strategy. The MA15 is in particular very good for minimizing losses. Thus different labelling methods have their unique strengths and weaknesses.
@@ -144,7 +143,6 @@ Next, PCA was applied with 20 components, and the same metrics were used to dete
 ![Alt text](images/PCA20_2.PNG?raw=true "Figure 12")
 
 Avg Accuracy: [Peak, MA15] =  [0.49710345, 0.55689655]
-
 Avg Final Balance: [Buy-hold, Peak, MA15] =  [1.19225756, 1.08944722, 1.05598196]
 
 Applying PCA with 20 components resulted in worse performance, in general. The average accuracy and final balances dropped for both algorithms. However, in particular for peak-valley, the max loss was minimized from ~0.5 to ~0.8 of initial amount (PYPL), and thus both algorithms far outperform the buy-hold for this stock PYPL, which had ~0.5 of initial amount. Thus, PCA with 20 components resulted in more conservative performance. One last note, while minor, is that with PCA, the MA15 strategy became less conservative when considering losses. This is because without PCA, MA15 had max loss of >0.8 of initial amount, but with PCA, it can be seen in the chart above that some stocks have slightly larger losses, <0.8 of initial amount.
@@ -164,7 +162,6 @@ Based on the results, the average final balance is maximized with the peak-valle
 ![Alt text](images/PCA7_2.PNG?raw=true "Figure 15")
 
 Avg Accuracy: [Peak, MA15] =  [0.51206897, 0.67006897]
-
 Avg Final Balance: [Buy-hold, Peak, MA15] =  [1.19225756, 1.15503897 1.07264335]
 
 From the charts above, it can be seen peak-valley has become much more competitive with buy-hold, with it having a new final balance of ~1.15 vs. the without PCA version of ~1.10, which is about a 50% increase in performance compared to the without PCA version [50% from comparing only profit => (0.15 - 0.1) / 0.1]. As a result, peak-valley now outperforms buy-hold in a good amount of stocks. This is important, because it does so, while minimizing loss compared to buy-hold (~0.8 vs. ~0.5 of original amount for max loss). Thus, GNB with peak-valley labelling and PCA with 7 components was found to be the most beneficial strategy. 
