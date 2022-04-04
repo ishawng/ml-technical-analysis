@@ -130,7 +130,7 @@ def get_features_data(symb_data : np.array):
     feat[:,38] = (vwap14-ema144) / std_ema
     # feature40: vwap5-vwap14 ratio
     feat[:,39] = (vwap5-vwap14) / std_ema
-    plot_feature(feat[:,1], "(close-SMA34)/EMA5")
+    # plot_feature(feat[:,1], "(close-SMA34)/EMA5")
     return feat
 
 def get_sma(close_vals : np.array, window : int):
