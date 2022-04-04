@@ -85,7 +85,10 @@ We conduct unsupervised learning on a number of stocks from the S&P 500 to separ
 
 To cluster based on similarity of sequences of data points, K-Means will be applied with Dynamic Time Warping (DTW) metric [4]. To evaluate its effectiveness, we will compare it with K-Means with Euclidean distance metric and a Gaussian Mixture Model.
 
-[UPDATE] Supervised Learning will then be conducted on each of the clusters. The papers we reviewed ([1],[2],[3]) mostly suggested SVM and Naive Bayes since they were the most successful, and we will be comparing them both. Although we have the types of indicators as the features of the dataset, we require a form of labeling to identify when a stock should be bought and sold. [1] suggested the ‘Moving Average’ Indicator for this, but this indicator is already a feature. Thus, we propose a novel approach to labeling the stock data via the peak valley algorithm [5], which maximizes the profit over the given timeframe, and will compare with [1]’s results.
+Supervised learning was conducted on the top 50 stocks to make purchase decisions using the most common technical indicators as features. The first supervised learning method that was used was Gaussian Naive Bayes (GNB). Before GNB could be used on the data, the data was cleaned up. Many of the features are calculated based on a range of data, so the values for those features were NaN if enough data was not available. To illustrate this, consider the SMA34 feature. The SMA34 feature is the average of the closing price of the past 34 days. For the first 33 days considered in the training set, the SMA34 can not be calculated, so its value is NaN. GNB does not work with NaN values for features, so all NaN values in the training and testing features were replaced with zero before using with GNB. 
+
+To get a baseline, GNB was first applied without performing feature reduction with principal component analysis (PCA). Next, PCA was used to reduce the number of features by half, 40 features to 20 features, before applying GNB. After this, the optimal number of components to keep with PCA was determined by starting with one component and incrementing by one to 40 components and running GNB on all stocks for each number of components. The key metrics used to evaluate the different GNB cases was the accuracy and final balance for each labeling scheme, peak-valley and MA15. Next, SVM will be used, and the results will be compared with GNB. 
+
  
 
 ## Unsupervised Learning Results & Discussion:
@@ -115,6 +118,63 @@ Lastly, we used a Gaussian Mixture Model (GMM) for clustering to see if the soft
 The GMM performed similarly to K-Means with Euclidean distance. GMM suffers from the same shortcomings as K-Means with Euclidean distance. Again, we can see that there are two stocks that are outliers in their own cluster, while the other three clusters have a large mixture of stocks.
 
 Based on the results of the three clustering algorithms that we tried, we have decided to use K-Means with Dynamic Time Warping as our primary method of clustering the stocks.
+
+## Supervised Learning Results & Discussion:
+
+First, GNB was used with no feature reduction to establish a baseline that is then compared with the results of GNB with feature reduction. For this, GNB was run on the top 50 stocks from the S&P 500, and the predicted labels for each stock were used to simulate how an account that invested in the stock would fare during the testing period. The buy-hold account is the simplest type of investing where a stock is bought and held throughout a period and is used to determine how much the peak-valley and MA15 labeling methods improve. For the figures below and all subsequent figures, “unit account” implies that the account starts at 1, and the final amount is a ratio of the starting amount. For example, in the below figure for buy-hold, AMZN (in brown), has a final amount of ~2. This means that the account grew 2x the original value. So if we had $100, the final value would be $200. Thus, we see that “unit account” is invariant of the initial amount invested. Furthermore, the graphs seen below are for the test data, after being trained using the training dataset.
+
+![Alt text](images/GNB.PNG?raw=true "Figure 9")
+
+From the above figures it can be seen, in general, buy-hold seems to be the most successful, with the peak-valley method in a close second. Interestingly, however, the stocks that have the most profit in buy-hold are different to the ones in peak-valley, and could offer the investor additional methods of investing to buy-hold (e.g. use peak-valley for stocks that tend to succeed with this method). Lastly, we see that the MA15 has the least profit, however, it does offer the least drawdown (loss). Its maximum loss is ~0.8, while peak-valley and buy-hold both have ~0.5 as maximum loss.
+
+![Alt text](images/GNB_2.PNG?raw=true "Figure 10")
+
+Avg Accuracy: [Peak, MA15] =  [0.5002069,  0.70351724]
+Avg Final Balance: [Buy-hold, Peak, MA15] =  [1.19225756, 1.10091563, 1.08027871]
+
+As can be observed from the above figures for accuracy and final balance, the MA15 has significantly higher accuracy than peak-valley, but it still yields less profit in general for the majority of stocks. This is because the peak-valley labelling method is much more aggressive than the MA15. With peak-valley, if one were to get 100% accuracy, it would imply the algorithm got the correct prediction for every single day. However, with MA15, it needs to be correct roughly every 15 days (as per the MA15), and thus accuracy tends to be higher with MA15. However, the drawback with MA15 is that even with 100% accuracy its potential profit is still minor compared to peak-valley. Thus 50% accuracy with peak-valley results in more profit than 75% accuracy with MA15. Thus, labelling plays a critical role in the performance for stock trading machine learning. Then, it can also be seen that although buy-hold beats both algorithms, there are some stocks for which peak-valley and MA15 beat the buy-hold strategy. The MA15 is in particular very good for minimizing losses. Thus different labelling methods have their unique strengths and weaknesses.
+
+### PCA (20 components):
+
+Next, PCA was applied with 20 components, and the same metrics were used to determine whether there was any improvement.
+
+![Alt text](images/PCA20.PNG?raw=true "Figure 11")
+
+![Alt text](images/PCA20_2.PNG?raw=true "Figure 12")
+
+Avg Accuracy: [Peak, MA15] =  [0.49710345, 0.55689655]
+Avg Final Balance: [Buy-hold, Peak, MA15] =  [1.19225756, 1.08944722, 1.05598196]
+
+Applying PCA with 20 components resulted in worse performance, in general. The average accuracy and final balances dropped for both algorithms. However, in particular for peak-valley, the max loss was minimized from ~0.5 to ~0.8 of initial amount (PYPL), and thus both algorithms far outperform the buy-hold for this stock PYPL, which had ~0.5 of initial amount. Thus, PCA with 20 components resulted in more conservative performance. One last note, while minor, is that with PCA, the MA15 strategy became less conservative when considering losses. This is because without PCA, MA15 had max loss of >0.8 of initial amount, but with PCA, it can be seen in the chart above that some stocks have slightly larger losses, <0.8 of initial amount.
+
+### Test different PCA Values:
+
+Since the average final balance decreased when PCA was used with 20 features, the optimal number of features to maximize final balance needed to be determined. A sweep across all number of possible components, 1 to 40 components, was done with all 50 stocks with the results shown below.
+
+![Alt text](images/PCA_ALL.PNG?raw=true "Figure 13")
+
+Based on the results, the average final balance is maximized with the peak-valley labeling method when PCA is used with 7 components. Based on these results, GNB was run again using PCA with 7 components. Additionally, it is interesting to note that MA15 doesn’t vary significantly with PCA, at least compared with peak-valley.
+
+### PCA (7 components):
+
+![Alt text](images/PCA7.PNG?raw=true "Figure 14")
+
+![Alt text](images/PCA7_2.PNG?raw=true "Figure 15")
+
+Avg Accuracy: [Peak, MA15] =  [0.51206897, 0.67006897]
+Avg Final Balance: [Buy-hold, Peak, MA15] =  [1.19225756, 1.15503897 1.07264335]
+
+From the charts above, it can be seen peak-valley has become much more competitive with buy-hold, with it having a new final balance of ~1.15 vs. the without PCA version of ~1.10, which is about a 50% increase in performance compared to the without PCA version [50% from comparing only profit => (0.15 - 0.1) / 0.1]. As a result, peak-valley now outperforms buy-hold in a good amount of stocks. This is important, because it does so, while minimizing loss compared to buy-hold (~0.8 vs. ~0.5 of original amount for max loss). Thus, GNB with peak-valley labelling and PCA with 7 components was found to be the most beneficial strategy. 
+
+After it was determined that 7 components maximizes the average final balance, the components created with PCA were examined to determine which of the 40 features contributed the most to each feature. Any feature with an absolute value component score greater than 0.1 was considered as contributing to a component. This analysis was performed on the data for each stock, and the following conclusions were drawn. For all stocks, component 6 relied mostly on feature 32 which is the vol-vol30 ratio. The RSI features contributed the most to components 1 through 5, and therefore had significant influence since they were used for 5 components. Component 7 had the most variation relying on the moving average features, MACD and VWAP features.
+
+Vol-vol30 ratio had the biggest contribution to component 6 for all stocks, which implies that it in itself is a very important feature (interestingly, this was the only feature that made use of volume). Thus, the conclusion might be drawn that volume plays a significant role (by itself) in the prediction of stock prices, but its role is still not significant enough to be considered as a single indicator for prediction of stocks. This is supported by the fact that other features played an important role for the other 6 components (RSI and MA etc.). It is surprising to see that RSI played such a big role in all 1-5 components. However, this might be expected since most traders use the RSI as a metric for predicting price movement. Lastly for component 7, it should be noted that the MACD and VWAP are all based on the moving average, and thus it makes sense that they all contribute together to component 7. 
+
+Thus, besides just performance improvement, PCA offers interesting insight into most vital indicators for predicting the stock market. 
+
+
+
+
 
 ## References:
 
