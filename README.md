@@ -94,23 +94,23 @@ Our unsupervised portion of the project consisted of clustering the top 50 S&P 5
 
 The first clustering method we used was K-Means with Euclidean distance. Running the elbow method revealed 4 clusters as being a good choice for the dataset:
 
-![Alt text](images/knn_elbow.png?raw=true "Figure 4")
+![Alt text](images/knn_elbow.PNG?raw=true "Figure 4")
 
-![Alt text](images/knn.png?raw=true "Figure 5")
+![Alt text](images/knn.PNG?raw=true "Figure 5")
 
 Most of the clusters ended up being fairly mixed, with one cluster of outliers. This is likely because Euclidean distance isn’t a very good metric when dealing with time-based data, as it is invariant to time shifts. That is, if two time series are similar, but shifted by some number of time steps, Euclidean distance fails during clustering.
 
 To solve this problem, we next used K-Means with Dynamic Time Warping (DTW). As motivated by [4], DTW is a better metric to use when clustering time series because it can measure the similarity in trend between two time series even if the similarity does not begin at the same time. The resulting elbow method plot for this strategy revealed 6 clusters as being a good choice for the dataset:
 
-![Alt text](images/dtw_elbow.png?raw=true "Figure 6")
+![Alt text](images/dtw_elbow.PNG?raw=true "Figure 6")
 
-![Alt text](images/dtw.png?raw=true "Figure 7")
+![Alt text](images/dtw.PNG?raw=true "Figure 7")
 
 The clusters that resulted from DTW are slightly better than the ones that resulted from Euclidean distance. The two stocks that were outliers in Euclidean distance are now integrated into clusters, instead of being separate in their own cluster. Also, from a visual analysis, the stocks that are clustered together tend to have similar properties. For example, Tesla, Facebook, NVIDIA, Adobe, and Netflix are all clustered together, and are all technology-oriented companies.
 
 Lastly, we used a Gaussian Mixture Model (GMM) for clustering to see if the soft and non-spherical clustering capabilities of GMM would improve our results. Running the GMM with 4 clusters gave the following:
 
-![Alt text](images/gmm.png?raw=true "Figure 8")
+![Alt text](images/gmm.PNG?raw=true "Figure 8")
 
 The GMM performed similarly to K-Means with Euclidean distance. GMM suffers from the same shortcomings as K-Means with Euclidean distance. Again, we can see that there are two stocks that are outliers in their own cluster, while the other three clusters have a large mixture of stocks.
 
