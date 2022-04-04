@@ -15,7 +15,7 @@ In technical analysis, indicators derived from market data are used to find math
 
 The top 50 stocks were taken from the S&P 500, and their data was pulled from Yahoo Finance API on the daily timeframe. Training data was collected from 1-1-2013 to 12-31-2020 and test data was collected from 1-1-2021 to 3-1-2022. Below is a snapshot of the type of data collected (taken from training data of AAPL). 
 
-INSERT IMAGE
+![Alt text](images/dataset_snapshot.png?raw=true "Figure 1: typical form of data for dataset")
 
 The above dataset is all that is needed for unsupervised learning, however, for supervised learning, features in terms of the indicators are required.
 
@@ -23,11 +23,11 @@ All Indicators are some mathematical function of “date”, “open”, “high
 
 For an example of a feature, consider one of the simplest indicators, a 34-day Simple Moving Average (SMA34). The SMA34 takes the average of the closing price of the last 34 days. Taking the SMA34 we compute our first feature as, “close” - SMA34.  If the difference is positive it implies that the closing price is higher than the SMA34 (constitutes a buy), and vice versa if negative (sell). The reason for choosing data as a float instead of a +1 for a buy and -1 for a sell, is because more information is retained with floats. To illustrate this, the plot of this difference (for training data of AAPL from 2013-2020) can be seen below.
 
-INSERT IMAGE
+![Alt text](images/sma34.png?raw=true "Figure 2")
 
 However, as one can observe from the above data, as time progresses the difference becomes larger. This is expected since as AAPL’s price increases, the difference between the price and moving average increases as well. This poses a problem since this feature is not invariant to time. So any future predictions will always grow in amplitude since price increases generally, and go outside the trained data in the training dataset, leading to a worsening feature with time since training data. To fix this issue, we normalize by the 5-day Exponential Moving Average (EMA5). This indicator is selected as the exponential gives more weight to recent days within the 5 day window and better reflects current price, while getting rid of most noise that occurs from just choosing the “close” as the normalizing metric. Applying this normalization we see the new graph below. It is observed that it is largely invariant to time, and thus is a better feature.
 
-INSERT IMAGE
+![Alt text](images/sma34_normalized.png?raw=true "Figure 3")
 
 In a similar way we define the rest of the 39 features for a total of 40, and are seen below. All these indicators were implemented using the python library ‘Technical Analysis Library’ [6].
 
