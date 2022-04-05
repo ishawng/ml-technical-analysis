@@ -129,9 +129,10 @@ From the above figures it can be seen, in general, buy-hold seems to be the most
 
 ![Alt text](images/GNB_2.PNG?raw=true "Figure 10")
 
-Avg Accuracy: [Peak, MA15] =  [0.5002069,  0.70351724]
-
-Avg Final Balance: [Buy-hold, Peak, MA15] =  [1.19225756, 1.10091563, 1.08027871]
+|                       | Buy-hold | Peak-valley |    MA15    |
+|:---------------------:|:--------:|:-----------:|:----------:|
+|    Average Accuracy   |    N/A   |  0.5002069  | 0.70351724 |
+| Average Final Balance |1.19225756|  1.10091563 | 1.08027871 |
 
 As can be observed from the above figures for accuracy and final balance, the MA15 has significantly higher accuracy than peak-valley, but it still yields less profit in general for the majority of stocks. This is because the peak-valley labelling method is much more aggressive than the MA15. With peak-valley, if one were to get 100% accuracy, it would imply the algorithm got the correct prediction for every single day. However, with MA15, it needs to be correct roughly every 15 days (as per the MA15), and thus accuracy tends to be higher with MA15. However, the drawback with MA15 is that even with 100% accuracy its potential profit is still minor compared to peak-valley. Thus 50% accuracy with peak-valley results in more profit than 75% accuracy with MA15. Thus, labelling plays a critical role in the performance for stock trading machine learning. Then, it can also be seen that although buy-hold beats both algorithms, there are some stocks for which peak-valley and MA15 beat the buy-hold strategy. The MA15 is in particular very good for minimizing losses. Thus different labelling methods have their unique strengths and weaknesses.
 
@@ -143,9 +144,10 @@ Next, PCA was applied with 20 components, and the same metrics were used to dete
 
 ![Alt text](images/PCA20_2.PNG?raw=true "Figure 12")
 
-Avg Accuracy: [Peak, MA15] =  [0.49710345, 0.55689655]
-
-Avg Final Balance: [Buy-hold, Peak, MA15] =  [1.19225756, 1.08944722, 1.05598196]
+|                       | Buy-hold | Peak-valley |    MA15    |
+|:---------------------:|:--------:|:-----------:|:----------:|
+|    Average Accuracy   |    N/A   |  0.49710345 | 0.55689655 |
+| Average Final Balance |1.19225756|  1.08944722 | 1.05598196 |
 
 Applying PCA with 20 components resulted in worse performance, in general. The average accuracy and final balances dropped for both algorithms. However, in particular for peak-valley, the max loss was minimized from ~0.5 to ~0.8 of initial amount (PYPL), and thus both algorithms far outperform the buy-hold for this stock PYPL, which had ~0.5 of initial amount. Thus, PCA with 20 components resulted in more conservative performance. One last note, while minor, is that with PCA, the MA15 strategy became less conservative when considering losses. This is because without PCA, MA15 had max loss of >0.8 of initial amount, but with PCA, it can be seen in the chart above that some stocks have slightly larger losses, <0.8 of initial amount.
 
@@ -163,9 +165,10 @@ Based on the results, the average final balance is maximized with the peak-valle
 
 ![Alt text](images/PCA7_2.PNG?raw=true "Figure 15")
 
-Avg Accuracy: [Peak, MA15] =  [0.51206897, 0.67006897]
-
-Avg Final Balance: [Buy-hold, Peak, MA15] =  [1.19225756, 1.15503897 1.07264335]
+|                       | Buy-hold | Peak-valley |    MA15    |
+|:---------------------:|:--------:|:-----------:|:----------:|
+|    Average Accuracy   |    N/A   |  0.51206897 | 0.67006897 |
+| Average Final Balance |1.19225756|  1.15503897 | 1.07264335 |
 
 From the charts above, it can be seen peak-valley has become much more competitive with buy-hold, with it having a new final balance of ~1.15 vs. the without PCA version of ~1.10, which is about a 50% increase in performance compared to the without PCA version [50% from comparing only profit => (0.15 - 0.1) / 0.1]. As a result, peak-valley now outperforms buy-hold in a good amount of stocks. This is important, because it does so, while minimizing loss compared to buy-hold (~0.8 vs. ~0.5 of original amount for max loss). Thus, GNB with peak-valley labelling and PCA with 7 components was found to be the most beneficial strategy. 
 
