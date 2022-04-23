@@ -127,6 +127,8 @@ First, GNB was used with no feature reduction to establish a baseline that is th
 
 First, each stock was considered individually, so a separate GNB classifier was fitted to the training data of each stock. The test labels for each stock were determined by using the respective GNB classifier for each stock, and the accuracy and final balance of all the stocks were averaged which are shown below.
 
+![Alt text](images/GNB_all.png?raw=true "Figure 9")
+
 |                       | Buy-hold | Peak-valley |    MA15    |
 |:---------------------:|:--------:|:-----------:|:----------:|
 |    Average Accuracy   |    N/A   |  0.5002069  | 0.70351724 |
@@ -136,7 +138,7 @@ As can be observed from the above table for accuracy and final balance, the MA15
 
 To try and improve the final balance of the labeling methods, PCA was considered. To determine the optimal number of components to use with PCA, a sweep across all number of possible components, 1 to 40 components, was done with all 50 stocks with the results shown below. A similar methodology as above was used where each PCA was applied to each stocks training data individually, and a GNB classifier was fitted to the modified training data. 
 
-![Alt text](images/PCA_sweep_all.png?raw=true "Figure 9")
+![Alt text](images/PCA_sweep_all.png?raw=true "Figure 10")
 
 Based on the results, the average final balance is maximized with the peak-valley labeling method when PCA is used with 4 components. It is interesting to note that MA15 doesn’t vary significantly with PCA, at least compared with peak-valley. Based on these results, GNB was run again using PCA with 4 components, and the results are shown below. 
 
@@ -160,29 +162,90 @@ Even though PCA increased the final balance of peak-valley, it is still less tha
 
 Even with combining the training data, the final balance of peak-valley and MA15 are not close to the final balance achieved with the buy-hold strategy. In addition, there is no significant difference between combining all the training data and using a single GNB classifier as opposed to fitting an individual GNB classifier for each stock. The MA15 final balance only increased by 0.01, and the peak-valley final balance was actually lower with a 0.006 reduction. However, the final balance did improve before when PCA was performed, so optimal number of components was determined by sweeping across across all number of possible components. For this, PCA was applied to the combined training dataset of all 50 stocks, and a single GNB classifier was fitted to the modified training data. The accuracy and final balance seen below is the average of all 50 stocks with predictions made using the same GNB classifier.
 
-![Alt text](images/PCA_sweep_all_comb.png?raw=true "Figure 10")
+![Alt text](images/PCA_sweep_all_comb.png?raw=true "Figure 11")
 
 Based on the results shown in Figure 10, both the peak-valley and MA15 labeling schemes achieved their highest average final balance at 17 components with the peak-valley final balance reaching close to 1.2 which is the final balance achieved by buy-hold. Since the peak-valley final balance was close to the buy-hold final balance, PCA with 17 components was applied to the combined training dataset, and the average final balance and final balance of each stock are shown below.
+
+![Alt text](images/GNB_all_comb_pca.png?raw=true "Figure 12")
+
+![Alt text](images/PCA_17_comb_final_bal.png?raw=true "Figure 13")
 
 |                       | Buy-hold |Peak-valley|    MA15   |
 |:---------------------:|:--------:|:---------:|:---------:|
 |    Average Accuracy   |    N/A   | 0.51289655| 0.6317931 |
 | Average Final Balance |1.19225756| 1.1995076 | 1.16381517|
 
-![Alt text](images/PCA_17_comb_final_bal.png?raw=true "Figure 11")
-
-Using PCA with 17 components significantly increased the average final balance of both peak-valley and MA15 compared to both without PCA and when seprate GNB classifiers were used for each stock. Even though the MA15 accuracy dropped, the final balance increased significantly, as the final balance finally went above 1.1 to 1.16. In addition, the peak-valley final balance was finally higher than buy-hold's which shows that the labeling scheme can outperform the buy-hold strategy. Looking at the individual stocks, the MA15 labeling scheme resulted in the highest final balance for some stocks, but for the most part, either buy-hold or peak-valley resulted in the highest final balance which reflects the results seen in the table.
+Using PCA with 17 components significantly increased the average final balance of both peak-valley and MA15 compared to both without PCA and when seprate GNB classifiers were used for each stock. Even though the MA15 accuracy dropped, the final balance increased significantly, as the final balance finally went above 1.1 to 1.16. In addition, the peak-valley final balance was finally higher than buy-hold's which shows that the labeling scheme can outperform the buy-hold strategy. Looking at the individual stocks, the MA15 labeling scheme resulted in the highest final balance for some stocks, but for the most part, either buy-hold or peak-valley resulted in the highest final balance which reflects the results seen in the table. The negative aspect of both peak-valley and buy-hold strategies is that they are riskier than MA15. The lowest final balance with MA15 is around 0.8 for Intel (INTC), but both buy-hold and peak-valley result in final balances around 0.5 for Paypal (PYPL) which makes these strategies extremely risky for some stocks. This shows that even though MA15 has a lower average final balance than both buy-hold and peak-valley, there are some stocks for which using MA15 is more beneficial.
 
 ### Clustered Stocks
+
+While the peak-valley labeling scheme finally achieved a higher average final balance than the buy-hold strategy, the improvement is only approximately 0.007 which translates to an increase of $7 if the original investment was $1000. To try and improve the performance even more, incorporating the clustering results from the unsupervised section was considered. In the unsupervised section, the stocks were clustered using the DTW metric with the theory that the clustered stocks have common elements which can be leveraged to increase the performance in the supervised learning. To test this, the stocks were split into clusters determined using k-means with DTW metric as shown below.
+
+- Cluster 1: MA, AMZN, NEE, DHR, GOOG, UNH, MSFT, ACN, V, HD, COST, NKE, CRM, AVGO, AAPL, LOW, LLY, TMO, GOOGL
+- Cluster 2: CVX, KO, WFC
+- Cluster 3: BAC, ABT, ABBV, MCD, DIS, INTC, CSCO, JPM, CMCSA, QCOM, BRK-B, LIN
+- Cluster 4: XOM, T, VZ
+- Cluster 5: JNJ, PG, PFE, PEP, WMT, MRK
+- Cluster 6: TSLA, FB, NVDA, ADBE, INTU, NFLX
+
+For each cluster, the training datasets for all stocks in the cluster were combined, and a GNB classifier was fitted for each cluster using the cluster's combined training dataset. The same approach as before was used with fitting a GNB classifier without PCA and then determining the optimal number of PCA components for each cluster. The average final balance for each cluster without performing PCA is shown below.
 
 |                           | Buy-hold |Peak-valley|    MA15  |
 |:-------------------------:|:--------:|:---------:|:--------:|
 |Cluster 1 Avg Final Balance|1.23951547|1.12055809 |1.12632436|
-|Cluster 2 Avg Final Balance|1.23951547| 1.1995076 | 1.16381517|
-|Cluster 3 Avg Final Balance|1.19225756| 1.1995076 | 1.16381517|
-|Cluster 4 Avg Final Balance|1.19225756| 1.1995076 | 1.16381517|
-|Cluster 5 Avg Final Balance|1.19225756| 1.1995076 | 1.16381517|
-|Cluster 6 Avg Final Balance|1.19225756| 1.1995076 | 1.16381517|
+|Cluster 2 Avg Final Balance|1.55885621|1.29262168 |1.06721071|
+|Cluster 3 Avg Final Balance|1.16322689|1.18224253 |1.00554879|
+|Cluster 4 Avg Final Balance|1.20210187|1.15626126 |1.01956352|
+|Cluster 5 Avg Final Balance|1.08442302|0.98865121 |1.05772243|
+|Cluster 6 Avg Final Balance|1.13855429|1.08826255 |1.13502758|
+
+From the table above, there are some interesting results to point out. For cluster 3, the peak-valley labeling scheme already outperforms buy-hold without any PCA, and the average final balance should increase after PCA is performed based on previous observations. This shows that for cluster 3, peak-valley should be the preferred method for making decisions. Another observation is that MA15 is currently better than peak-valley for clusters 1, 5 and 6, and it remains to be seen which labeling method will perform better after PCA is applied. The optimal number of PCA components for each cluster was determined by using the same approach as before by performing a sweep across all possible components and choosing the number of components that maximized average final balance. The final balance charts for each cluster, and optimal number of compoennts are shown below.
+
+![Alt text](images/PCA_sweep_1.png?raw=true "Figure 14")
+
+![Alt text](images/PCA_sweep_2.png?raw=true "Figure 15")
+
+![Alt text](images/PCA_sweep_3.png?raw=true "Figure 16")
+
+![Alt text](images/PCA_sweep_4.png?raw=true "Figure 17")
+
+![Alt text](images/PCA_sweep_5.png?raw=true "Figure 18")
+
+![Alt text](images/PCA_sweep_6.png?raw=true "Figure 19")
+
+|                     |Number of Components|Final Balance|
+|:-------------------:|:------------------:|:-----------:|
+|Cluster 1 Peak-Valley|10                  |1.25021420547|
+|Cluster 1 MA15       |19                  |1.15609241653|
+|Cluster 2 Peak-Valley|21                  |1.45483231419|
+|Cluster 2 MA15       |14                  |1.43985909669|
+|Cluster 3 Peak-Valley|11                  |1.19820607275|
+|Cluster 3 MA15       |20                  |1.13041225388|
+|Cluster 4 Peak-Valley|2                   |1.30175344541|
+|Cluster 4 MA15       |19                  |1.15809102279|
+|Cluster 5 Peak-Valley|3                   |1.15793025173|
+|Cluster 5 MA15       |10                  |1.15010856411|
+|Cluster 6 Peak-Valley|18                  |1.28712220730|
+|Cluster 6 MA15       |18                  |1.39985067218|
+
+Based on the results from the table, the optimal number of components for each cluster are as follows (ordered from 1 to 6): 10, 21, 11, 2, 3, 18. One interesting note is that for cluster 6, both peak-valley and MA15 reached their highest average balance at 18 components, and the final balance for MA15 was actually higher than peak-valley. Cluster 6 is the only cluster where MA15 was higher than peak-valley and shows that MA15 is better for some stocks. In addition, the final balances of peak-valley and MA15 were very close for cluster 2, 3 and 5 which again shows that peak-valley is not always better than MA15. With the optimal number of components determined for each cluster, PCA was applied to the datasets for each cluster, and a GNB classifier was fitted for each cluster.
+
+|                           | Buy-hold |Peak-valley|   MA15   |
+|:-------------------------:|:--------:|:---------:|:--------:|
+|Cluster 1 Avg Final Balance|1.23951547|1.25021421 |1.08142691|
+|Cluster 2 Avg Final Balance|1.55885621|1.45483231 |1.32736437|
+|Cluster 3 Avg Final Balance|1.16322689|1.19820607 |1.04668446|
+|Cluster 4 Avg Final Balance|1.20210187|1.30175345 |1.1393762 |
+|Cluster 5 Avg Final Balance|1.08442302|1.15793025 |1.04169596|
+|Cluster 6 Avg Final Balance|1.13855429|1.28712221 |1.39985067|
+
+For most of the clusters, peak-valley resulted in the higher average final balance, but there were two exceptions. For cluster 2, buy-hold had the highest final balance which was also the case before PCA was applied. For cluster 6, both peak-valley and MA15 outperformed buy-hold, but the MA15 final balance was higher than peak-valley making it the preferred labeling scheme for the stocks in cluster 6. While the results in the table are useful, it cannot be compared to the results without clustering in its current state because the performance of individual stocks is not being tracked. Therefore, the final balance of each stock using the single GNB classifier for all stocks was subtracted from the final balance of each stock trained with the GNB classifier for its cluster to help determine whether there was any improvement, and the results are shown below for each labeling scheme.
+
+![Alt text](images/Stock_comp_peak.png?raw=true "Figure 20")
+
+![Alt text](images/Stock_comp_MA15.png?raw=true "Figure 21")
+
+In the figures above, a positive difference means that using clustering and training a GNB classifier by combining the training data for each cluster results in a higher final balance than using a single GNB classfier for all stocks. For peak-valley, the total improvement by using clustering was 2.09 which is approximately 0.042 per stock. On the other hand, the total improvement for MA15 was -0.92 which is approximately -0.018 per stock. Overall, clustering improved the final balance for most stocks with the peak-valley improving the most, but for some stocks MA15 is still better. For example, Facebook (FB) had a negative difference when using clustering with peak-valley but had a positive difference when using MA15. Therefore, MA15 is still useful for certain stocks, but peak-valley is better overall.
 
 ## References:
 
