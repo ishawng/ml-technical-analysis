@@ -164,7 +164,7 @@ Even with combining the training data, the final balance of peak-valley and MA15
 
 ![Alt text](images/PCA_sweep_all_comb.png?raw=true "Figure 11")
 
-Based on the results shown in Figure 10, both the peak-valley and MA15 labeling schemes achieved their highest average final balance at 17 components with the peak-valley final balance reaching close to 1.2 which is the final balance achieved by buy-hold. Since the peak-valley final balance was close to the buy-hold final balance, PCA with 17 components was applied to the combined training dataset, and the average final balance and final balance of each stock are shown below.
+Based on the results shown in the above figure, both the peak-valley and MA15 labeling schemes achieved their highest average final balance at 17 components with the peak-valley final balance reaching close to 1.2 which is the final balance achieved by buy-hold. Since the peak-valley final balance was close to the buy-hold final balance, PCA with 17 components was applied to the combined training dataset, and the average final balance and final balance of each stock are shown below.
 
 ![Alt text](images/GNB_all_comb_pca.png?raw=true "Figure 12")
 
@@ -262,7 +262,7 @@ Same as with GNB even after combining the training data, the final balance of pe
 
 ![Alt text](images/SVM1-afb-.png?raw=true "Figure 22")
 
-Based on the results shown in Figure 22, both the peak-valley and MA15 labeling schemes achieved their highest average final balance at 7 components - significantly lower than with GNB at 17 components - with the peak-valley final balance reaching close to 1.2 which is the final balance achieved by buy-hold. Since the peak-valley final balance was close to the buy-hold final balance, PCA with 7 components was applied to the combined training dataset, and the average final balance and final balance of each stock are shown in the below figures.
+Based on the results shown in the above figure, both the peak-valley and MA15 labeling schemes achieved their highest average final balance at 7 components - significantly lower than with GNB at 17 components - with the peak-valley final balance reaching close to 1.2 which is the final balance achieved by buy-hold. Since the peak-valley final balance was close to the buy-hold final balance, PCA with 7 components was applied to the combined training dataset, and the average final balance and final balance of each stock are shown in the below figures.
 
 ![Alt text](images/SVM2.png?raw=true "Figure 23")
 
