@@ -119,9 +119,9 @@ The GMM performed similarly to K-Means with Euclidean distance. GMM suffers from
 
 Based on the results of the three clustering algorithms that we tried, we have decided to use K-Means with Dynamic Time Warping as our primary method of clustering the stocks.
 
-## Supervised Learning Results & Discussion:
+## GNB - Supervised Learning Results & Discussion:
 
-### All Stocks
+### GNB - All Stocks
 
 First, GNB was used with no feature reduction to establish a baseline that is then compared with the results of GNB with feature reduction. For this, GNB was run on the top 50 stocks from the S&P 500, and the predicted labels for each stock were used to simulate how an account that invested in the stock would fare during the testing period. The buy-hold account is the simplest type of investing where a stock is bought and held throughout a period and is used to determine how much the peak-valley and MA15 labeling methods improve. For the figures below and all subsequent figures, “unit account” implies that the account starts at 1, and the final amount is a ratio of the starting amount. For example, in the below figure for buy-hold, AMZN (in brown), has a final amount of ~2. This means that the account grew 2x the original value. So if we had $100, the final value would be $200. Thus, we see that “unit account” is invariant of the initial amount invested. 
 
@@ -151,7 +151,7 @@ From the table above, it can be seen peak-valley has become much more competitiv
 
 After it was determined that 4 components maximizes the average final balance, the components created with PCA were examined to determine which of the 40 features contributed the most to each feature. Any feature with an absolute value component score greater than 0.1 was considered as contributing to a component. This analysis was performed on the data for each stock, and for all stocks, the RSI features contributed the most to all components, and therefore had the most influence. It is surprising to see that RSI played such a big role in all components. However, this might be expected since most traders use the RSI as a metric for predicting price movement. Thus, besides just performance improvement, PCA offers interesting insight into most vital indicators for predicting the stock market. 
 
-### All Stocks with Combined Training Data
+### GNB - All Stocks with Combined Training Data
 
 Even though PCA increased the final balance of peak-valley, it is still less than the final balance achieved using buy-hold by a decent amount, so some other strategy must be considered to try and match the performance of the buy-hold strategy. One of the main limitations with out dataset is the number of samples available for training. To include Facebook in the stocks being considered, stock data was collected from 1-1-2013 which is Facebook's first full year in the S&P500. Due to this constraint, additional training data cannot be collected, so other approaches need to be considered to artifcally increase the size of the training set. The approach that was considered is combining the training data of all 50 stocks into a single training dataset, and then fitting a single GNB classifier to the combined training dataset. The same GNB classifier is then used to make predictions for each stock's testing dataset. First, a GNB classifier was fitted to the combined training dataset without applying PCA. The average accuracy and final balance results using the single GNB classifier are shown below.
 
@@ -177,7 +177,7 @@ Based on the results shown in Figure 10, both the peak-valley and MA15 labeling 
 
 Using PCA with 17 components significantly increased the average final balance of both peak-valley and MA15 compared to both without PCA and when seprate GNB classifiers were used for each stock. Even though the MA15 accuracy dropped, the final balance increased significantly, as the final balance finally went above 1.1 to 1.16. In addition, the peak-valley final balance was finally higher than buy-hold's which shows that the labeling scheme can outperform the buy-hold strategy. Looking at the individual stocks, the MA15 labeling scheme resulted in the highest final balance for some stocks, but for the most part, either buy-hold or peak-valley resulted in the highest final balance which reflects the results seen in the table. The negative aspect of both peak-valley and buy-hold strategies is that they are riskier than MA15. The lowest final balance with MA15 is around 0.8 for Intel (INTC), but both buy-hold and peak-valley result in final balances around 0.5 for Paypal (PYPL) which makes these strategies extremely risky for some stocks. This shows that even though MA15 has a lower average final balance than both buy-hold and peak-valley, there are some stocks for which using MA15 is more beneficial.
 
-### Clustered Stocks
+### GNB - Clustered Stocks
 
 While the peak-valley labeling scheme finally achieved a higher average final balance than the buy-hold strategy, the improvement is only approximately 0.007 which translates to an increase of $7 if the original investment was $1000. To try and improve the performance even more, incorporating the clustering results from the unsupervised section was considered. In the unsupervised section, the stocks were clustered using the DTW metric with the theory that the clustered stocks have common elements which can be leveraged to increase the performance in the supervised learning. To test this, the stocks were split into clusters determined using k-means with DTW metric as shown below.
 
@@ -260,13 +260,13 @@ The improvement with PCA wasn't sufficient for GNB, as a result we decided to co
 
 Same as with GNB even after combining the training data, the final balance of peak-valley and MA15 are not close to the final balance achieved with the buy-hold strategy. In addition, there is no significant difference between combining all the training data and using a single GNB classifier as opposed to fitting an individual GNB classifier for each stock. However, the final balance did improve before PCA was performed, so the optimal number of components was determined by sweeping across all numbers of possible components as was the case with GNB. For this, PCA was applied to the combined training dataset of all 50 stocks, and a single GNB classifier was fitted to the modified training data. The accuracy and final balance seen below is the average of all 50 stocks with predictions made using the same SVM classifier.
 
-![Alt text](images/SVM1-afb-.png?raw=true "Figure 11")
+![Alt text](images/SVM1-afb-.png?raw=true "Figure 22")
 
 Based on the results shown in Figure 10, both the peak-valley and MA15 labeling schemes achieved their highest average final balance at 7 components - significantly lower than with GNB at 17 components - with the peak-valley final balance reaching close to 1.2 which is the final balance achieved by buy-hold. Since the peak-valley final balance was close to the buy-hold final balance, PCA with 7 components was applied to the combined training dataset, and the average final balance and final balance of each stock are shown below.
 
-![Alt text](images/SVM2.png?raw=true "Figure 12")
+![Alt text](images/SVM2.png?raw=true "Figure 23")
 
-![Alt text](images/SVM3.png?raw=true "Figure 13")
+![Alt text](images/SVM3.png?raw=true "Figure 24")
 
 |                       | Buy-hold |Peak-valley|    MA15   |
 |:---------------------:|:--------:|:---------:|:---------:|
@@ -277,7 +277,7 @@ Using PCA with 7 components significantly increased the average final balance of
 
 Looking at the individual stocks, the MA15 labeling scheme resulted in the highest final balance for some stocks, but for the most part, either buy-hold or peak-valley resulted in the highest final balance which reflects the results seen in the table - similar to GNB. The negative aspect of both peak-valley and buy-hold strategies is that they are riskier than MA15 - again similar to GNB, the overall characteristics of the methods and their behavior with stock movements remained similar. The lowest final balance with MA15 is around 0.8 for Intel (INTC), but both buy-hold and peak-valley result in final balances around 0.5 for Paypal (PYPL) which makes these strategies extremely risky for some stocks. This shows that even though MA15 has a lower average final balance than both buy-hold and peak-valley, there are some stocks for which using MA15 is more beneficial. Overall, peak-valley had an approximately 62% higher final balance when compared with MA15.
 
-### Clustered Stocks
+### SVM - Clustered Stocks
 
 To try and improve the performance even more, incorporating the clustering results from the unsupervised section was considered. In the unsupervised section, the stocks were clustered using the DTW metric with the theory that the clustered stocks have common elements which can be leveraged to increase the performance in the supervised learning. To test this, the stocks were split into clusters determined using k-means with DTW metric as shown below.
 
@@ -303,17 +303,17 @@ For each cluster, the training datasets for all stocks in the cluster were combi
 From the table above, there are some interesting results to point out. Training the stocks on the dynamic time warp clusters, we found very similar relative results to Gausssian naive bayes. While Buy-hold and Peak-valley outperformed MA15 on most clusters, with buy-hold having the highest final balance in 75% of said cases, MA15 did outperform both buy-hold and peak-valley in clusters 5 & 6. The optimal number of PCA components was determined by using the same approach as before by performing a sweep across all possible components and choosing the number of components that maximized average final balance. The final balance charts for each cluster are shown below.
 
 
-![Alt text](images/SVMc1.png?raw=true "Figure 14")
+![Alt text](images/SVMc1.png?raw=true "Figure 25")
 
-![Alt text](images/SVMc2.png?raw=true "Figure 15")
+![Alt text](images/SVMc2.png?raw=true "Figure 26")
 
-![Alt text](images/SVMC3.png?raw=true "Figure 16")
+![Alt text](images/SVMc3.png?raw=true "Figure 27")
 
-![Alt text](images/SVMc4.png?raw=true "Figure 17")
+![Alt text](images/SVMc4.png?raw=true "Figure 28")
 
-![Alt text](images/SVMc5.png?raw=true "Figure 18")
+![Alt text](images/SVMc5.png?raw=true "Figure 29")
 
-![Alt text](images/SVMc6.png?raw=true "Figure 19")
+![Alt text](images/SVMc6.png?raw=true "Figure 30")
 
 Unlike with the GNB the results are obviously fast more mixed, there is no clear winner as each of the methods was did have some success - however it can be confidently stated that neither MA15 nor peak-valley beat buy-hold overall, and in most cases peak-valley did outperform MA15. 
 
@@ -324,11 +324,11 @@ Unlike with the GNB the results are obviously fast more mixed, there is no clear
 
 Comparing the two supervised learning methods we were able to determine that GNB was superior overall. Dividing the results further GNB saw consistently better performance when trained on clusters. For the peak-valley method the performance was better throughout all clusters and often by a significant (>0.05) margin, but either little improvement or slightly worse performance for some clusters using buy-hold and MA15. However it should be noted the sum of differences shows that once again the gains of GNB MA15 outweighs the relative gains of SVM MA15 - hence we can safely assume that the relatively conservative nature of MA15 or perhaps just improved performance of GNB would make the gains by SVM minimal in comparison - i.e. high upside with relatively less downside.
 
-![Alt text](images/SVM5.png?raw=true "Figure 20")
+![Alt text](images/SVM5.png?raw=true "Figure 31")
 
 In the chart on the bottom - where relative performance of GNB and SVM are compared using the single classifier trained on all collated stock data the difference was negligible for the peak-valley method but GNB once again performed markedly better for MA15 - again by a significant (>0.05) margin. It can therefore be safely concluded that GNB after performing PCA and DTW clustering has the highest performance and average final balance of any of the other methods tested including buy-hold.
 
-![Alt text](images/SVM4.png?raw=true "Figure 21")
+![Alt text](images/SVM4.png?raw=true "Figure 32")
 
 
 
