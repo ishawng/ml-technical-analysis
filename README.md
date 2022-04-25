@@ -19,7 +19,7 @@ The top 50 stocks were taken from the S&P 500, and their data was pulled from Ya
 
 The above dataset is all that is needed for unsupervised learning, however, for supervised learning, features in terms of the indicators are required.
 
-All Indicators are some mathematical function of “date”, “open”, “high”, “low”, and “close”, “volume.” Thus the above dataset is all that is required to acquire the features.
+All Indicators are some mathematical function of “date”, “open”, “high”, “low”, “close” and “volume.” Thus the above dataset is all that is required to acquire the features.
 
 For an example of a feature, consider one of the simplest indicators, a 34-day Simple Moving Average (SMA34). The SMA34 takes the average of the closing price of the last 34 days. Taking the SMA34 we compute our first feature as, “close” - SMA34.  If the difference is positive it implies that the closing price is higher than the SMA34 (constitutes a buy), and vice versa if negative (sell). The reason for choosing data as a float instead of a +1 for a buy and -1 for a sell, is because more information is retained with floats. To illustrate this, the plot of this difference (for training data of AAPL from 2013-2020) can be seen below.
 
