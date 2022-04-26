@@ -1,7 +1,12 @@
 ## Predicting Stock Prices With Technical Analysis
 
+### Final Video:
+<video src="https://user-images.githubusercontent.com/50810904/165390344-f60e58b9-c09c-44aa-b6f3-f4b8c9611f49.mp4" controls="controls" style="max-width: 100%;"></video>
+
+<!--
 ### Proposal Video:
 <video src="https://user-images.githubusercontent.com/50810904/155036324-39cf45cf-6e4d-47f0-ab16-b10ad9d3f17e.mp4" controls="controls" style="max-width: 100%;"></video>
+-->
 
 ## Introduction
 
